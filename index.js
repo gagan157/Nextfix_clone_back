@@ -10,7 +10,8 @@ dotenv.config()
 const allowOrigins = [
     'http://localhost:5000',
     'http://localhost:3000',
-    'https://netxflic-b-clone.onrender.com'
+    'https://netxflic-b-clone.onrender.com',
+    'https://netxflic-clone.onrender.com'
 ]
 databaseconnect()
 
