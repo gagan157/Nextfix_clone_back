@@ -6,8 +6,8 @@ const databaseconnect = async () => {
   try {
     const dburl = `${uri}${process.env.DATABASE_NAME}`;
     await moongoose.connect(dburl, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     });
   } catch (error) {
     console.log("error", error);
