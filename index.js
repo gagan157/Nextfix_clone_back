@@ -8,8 +8,6 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const allowOrigins = [
-    'http://localhost:5000',
-    'http://localhost:3000',
     'https://netxflic-b-clone.onrender.com'
 ]
 databaseconnect()
