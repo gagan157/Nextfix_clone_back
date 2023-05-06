@@ -3,14 +3,16 @@ const express = require('express')
 const Users = require('./models/users')
 const Subscibe = require('./models/subsciptionPlan')
 var cors = require('cors')
+const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 dotenv.config()
 
 const allowOrigins = [
     'http://localhost:5000',
+    'http://localhost:3000',
     'https://netxflic-b-clone.onrender.com'
 ]
-
+databaseconnect()
 
 const corsOption = {
     origin: (origin,callback)=>{
@@ -27,7 +29,7 @@ const corsOption = {
 const app = express()
 app.use(cors(corsOption))
 let port = process.env.PORT
-databaseconnect()
+
  
 app.use(express.json())
 app.use('/api/user', require('./routes/users_router'))
@@ -75,7 +77,9 @@ app.get('/', async (req, resp) => {
 
 
 
-
-app.listen(port, () => {
-    console.log(`http://localhost:${port}/`)
+mongoose.connection.once('open',()=>{
+    console.log('connect to DB')
+    app.listen(port, () => {
+        console.log(`http://localhost:${port}/`)
+    })
 })

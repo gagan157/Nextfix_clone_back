@@ -1,10 +1,12 @@
 const moongoose = require('mongoose')
-const uri = "mongodb://0.0.0.0:27017/";
+require('dotenv').config();
+
+const uri = `mongodb+srv://${process.env.DB_USER_NAME}:${process.env.DB_PASSWORD}@cluster0.u452ayr.mongodb.net/`;
 const databaseconnect = async()=>{
-    const dburl = `${uri}Netflix_db`;
     try{
-        const db = await moongoose.connect(dburl)
-       console.log('Database connect')
+        const dburl = `${uri}${process.env.DATABASE_NAME}`;
+        await moongoose.connect(dburl)
+       
     }
     catch(error){
         console.log('error',error)
