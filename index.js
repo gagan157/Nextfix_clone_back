@@ -6,9 +6,18 @@ var cors = require('cors')
 const dotenv = require('dotenv')
 dotenv.config()
 
+const allowOrigins = [
+    'http://localhost:5000',
+    'https://netxflic-b-clone.onrender.com'
+]
+
+const corsOption = {
+    origin: 'https://netxflic-b-clone.onrender.com',
+    optionsSuccessStatus: 200 
+}
 
 const app = express()
-app.use(cors())
+app.use(cors(corsOption))
 let port = process.env.PORT
 databaseconnect()
  
