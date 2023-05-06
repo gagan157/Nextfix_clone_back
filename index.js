@@ -11,8 +11,16 @@ const allowOrigins = [
     'https://netxflic-b-clone.onrender.com'
 ]
 
+
 const corsOption = {
-    origin: 'https://netxflic-b-clone.onrender.com',
+    origin: (origin,callback)=>{
+        if(allowOrigins.indexOf(origin) !== -1 || !origin){
+            callback(null,true);
+        }
+        else{
+            callback(new Error('Not Allowed by cors'))
+        }
+    },
     optionsSuccessStatus: 200 
 }
 
@@ -68,6 +76,6 @@ app.get('/', async (req, resp) => {
 
 
 
-// app.listen(port, () => {
-//     console.log(`http://localhost:${port}/`)
-// })
+app.listen(port, () => {
+    console.log(`http://localhost:${port}/`)
+})

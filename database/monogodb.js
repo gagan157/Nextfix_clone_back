@@ -1,7 +1,7 @@
 const moongoose = require('mongoose')
-
+const uri = "mongodb://0.0.0.0:27017/";
 const databaseconnect = async()=>{
-    const dburl = 'mongodb://localhost:27017/Netflix_db';
+    const dburl = `${uri}Netflix_db`;
     try{
         const db = await moongoose.connect(dburl)
        console.log('Database connect')
