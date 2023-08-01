@@ -29,7 +29,7 @@ const corsOption = {
 
 const app = express()
 app.use(cors(corsOption))
-let port = process.env.PORT
+const PORT = process.env.PORT
 
  
 app.use(express.json())
@@ -80,7 +80,7 @@ app.get('/', async (req, resp) => {
 
 mongoose.connection.once('open',()=>{
     console.log('connect to DB')
-    app.listen(port, () => {
-        console.log(`http://localhost:${port}/`)
+    app.listen(PORT, () => {
+        console.log(`http://localhost:${PORT}/`)
     })
 })

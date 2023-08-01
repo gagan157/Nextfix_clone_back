@@ -16,7 +16,7 @@ router.post('/createusers', async (req, resp) => {
     let useremail = req.body.email
     let user = await Users.findOne({ email: useremail })
     if (user) {
-        resp.send('Your email is already exsits')
+        resp.status(409).send({error:'Your email is already exsits'})
     }
     else {
         const {email,password} = req.body
@@ -53,22 +53,22 @@ router.post('/login', async (req, resp) => {
     const password = req.body.password
     let user = await Users.findOne({ email: email })
     if (!user) {
-        return resp.status(401).send('your email or password not correct')
+        return resp.status(401).send({error:'your email or password not correct'})
     }
     const userid = user._id
     try {
         const jwtverify = await Jwttokken.findOne({ user_id: userid })
         if (!jwtverify) {
-            return resp.send('auth token not valid')
+            return resp.send({error:'auth token not valid'})
         }
         const vrytokken = jwtverify.token_no
         const vry = jwt.verify(vrytokken, jwt_privateKey)
         if (!vry) {
-            return resp.status(401).send('auth token not valid')
+            return resp.status(401).send({error:'auth token not valid'})
         }
         let pass = await bcrypt.compare(password,user.password)
         if (!pass) {
-            return resp.status(401).send('your email or password not correct')
+            return resp.status(401).send({error:'your email or password not correct'})
         }
         const data = {
             user: {
@@ -88,11 +88,11 @@ router.post('/login', async (req, resp) => {
 router.post('/sendresetpasswordemail',async(req,resp)=>{
     const {email} = req.body
     if(!email){
-        return resp.send('All field are required')
+        return resp.send({error:'All field are required'})
     }
     const user = await Users.findOne({email:email})
     if(!user){
-        return resp.send('your email not exists')
+        return resp.send({error:'your email not exists'})
     }
     const secretkey = user._id+jwt_privateKey
     const token = jwt.sign({userid:user._id},secretkey,{expiresIn : '15m'})
@@ -117,11 +117,11 @@ router.put('/resetpassword/:id/:token',async(req,resp)=>{
     const {id,token} = req.params
     try{
         if(!newpassword){
-            return resp.send('All field required')
+            return resp.send({error:'All field required'})
         }
         const user = await Users.findById(id)
         if(!user){
-            return resp.send('Token Not Valid')
+            return resp.send({error:'Token Not Valid'})
         }
         const secretkey = user._id+jwt_privateKey
         const verytoken = jwt.verify(token,secretkey)
@@ -129,7 +129,7 @@ router.put('/resetpassword/:id/:token',async(req,resp)=>{
             return resp.send('token not valid')
         }
         if(id!==verytoken.userid){
-            return resp.send('Token no valid')
+            return resp.send({error:'Token no valid'})
         }
         const salt = await bcrypt.genSalt(10)
         const newhashpassword = await bcrypt.hash(newpassword,salt)

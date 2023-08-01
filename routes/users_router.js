@@ -30,9 +30,9 @@ router.get('/userdetails',middleware, async(req,resp) => {
         }
         console.log(userdetails)
         const data = {}
-        data._id = user._id
+        data._id = userdetails._id
+        data.user_id = user._id
         data.email = user.email
-        data.userp_id = userdetails._id
         data.first_name = userdetails.first_name
         data.last_name = userdetails.last_name
         data.address = userdetails.address
@@ -53,13 +53,14 @@ router.put('/profile_update/:id', middleware, async (req, resp) => {
     userid = req.user_id.id
     const profle = await Userprofiles.findOne({ user_id : userid })
     if (!profle) {
-        return resp.send('Not found')
-    }
+        return resp.send({error:'Not found'})
+    } 
+   
     if(profle._id.toString() !== req.params.id){
-        return req.send('not Allowed')
+        return resp.send({error:'Not Allowed..'})
     }
     if (profle.user_id.toString() !== userid) {
-        return resp.send('Not Allowed')
+        return resp.send({error:'Not Allowed'})
     }
     const { first_name, last_name, phone, gender, address } = req.body
     const newobj = {}
@@ -69,9 +70,11 @@ router.put('/profile_update/:id', middleware, async (req, resp) => {
     if (gender) { newobj.gender = gender }
     if (address) { newobj.address = address }
     const data = await Userprofiles.findByIdAndUpdate(
-        { _id: req.params.id }, { $set: newobj }
+        { _id: req.params.id }, { $set: newobj },{
+            new: true
+        }
     )
-    resp.send({ success: true })
+    resp.send({ success: true,data })
 })
 
 //delete user

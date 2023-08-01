@@ -5,17 +5,20 @@ dotenv.config()
 const jwt_privateKey = process.env.jwt_privateKey
 
 const fetchuserdetails = (req,resp,next)=>{
-    const vrytokken = req.header('auth-tokken')
+    let vrytokken = req.header('auth-tokken')   
+    
+    vrytokken ??= req.headers.authorization.split(" ")[1];         
+    
     if(!vrytokken){
-        resp.send({ error: 'please authenticate using a valid token'})
+       return resp.status(405).send({ error: 'please authenticate using a valid tokenssss'})
     }
     try{
-        const tokkn = jwt.verify(vrytokken,jwt_privateKey)
+        const tokkn = jwt.verify(vrytokken,jwt_privateKey)        
         req.user_id = tokkn.user
         next()
     }
     catch(err){
-        resp.send({ error: 'please authenticate using a valid tokens', errormsg : err })
+        resp.status(405).send({ error: 'please authenticate using a valid tokens', errormsg : err })
     }
     
 }
