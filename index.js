@@ -19,6 +19,7 @@ const allowOrigins = [
 databaseconnect()
 
 const corsOption = {
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
     origin: (origin,callback)=>{
         if(allowOrigins.indexOf(origin) !== -1 || !origin){
             callback(null,true);
