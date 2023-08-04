@@ -11,7 +11,9 @@ const allowOrigins = [
     'http://localhost:5000',
     'http://localhost:3000',
     'https://netxflic-b-clone.onrender.com',
-    'https://netxflic-clone.onrender.com'
+    'https://netxflic-clone.onrender.com',
+    'nextfix-clone-back.vercel.app',
+    'netfix-clone-front.vercel.app'
 ]
 databaseconnect()
 
