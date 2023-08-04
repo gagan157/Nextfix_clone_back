@@ -13,7 +13,8 @@ const allowOrigins = [
     'https://netxflic-b-clone.onrender.com',
     'https://netxflic-clone.onrender.com',
     'nextfix-clone-back.vercel.app',
-    'netfix-clone-front.vercel.app'
+    'netfix-clone-front.vercel.app',
+    'https://netfix-clone-front-dw2vhd3gi-gaganrehal93-gmailcom.vercel.app/'
 ]
 databaseconnect()
 
